@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto</title>
+  <!-- Enlace a la hoja de estilos -->
+  <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <header>
+    <div class="menu logo-nav">
+      <a href="index.html" class="logo">LAS MAGNOLIAS MARKET</a>
+      <nav class="navigation">
+        <ul>
+          <!-- Enlaces de navegación -->
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <div class="container-contacto">
+    <!-- Formulario de contacto -->
+    <form id="form" method="POST" onsubmit="guardarContacto(event)">
+      <h2>CONTACTO</h2>
+      <br>
+      <!-- Campo para el nombre del cliente -->
+      <input type="text" name="cliente" id="nombre" placeholder="Ingrese su Nombre" 
+        onkeypress="return sololetras(event)" onpaste="return false" 
+        required title="Por favor, ingrese su nombre completo.">
+      <!-- Campo para el correo electrónico, validado por el navegador -->
+      <input type="email" name="correo" id="correo" placeholder="Ingrese su Correo" 
+        required title="Por favor, ingrese una dirección de correo electrónico válida.">
+      <!-- Campo para el celular del cliente -->
+      <input type="tel" name="celular" id="celular" placeholder="Ingrese su Celular" 
+        onkeypress="return solonumeros(event)" onpaste="return false" 
+        required title="Por favor, ingrese su número de celular.">
+      <!-- Área de texto para el mensaje -->
+      <textarea name="mensaje" placeholder="Escriba su Mensaje" 
+        required title="Por favor, escriba su mensaje."></textarea>
+      <!-- Botón de envío del formulario -->
+      <input type="submit" id="button-contacto" value="ENVIAR" class="button">
+    </form>
+  </div>
+
+  <footer class="footer-section">
+    <div class="copyright-area">
+      <div class="container-footer">
+        <div class="row-footer">
+          <div class="col-xl-6 col-lg-6 text-center text-lg-left">
+            <div class="copyright-text">
+              <!-- Mensaje de copyright -->
+              <p>Copyright &copy; 2024, todos los derechos reservados <a href="index.html">LAS MAGNOLIAS</a></p>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 d-none d-lg-block text-right">
+            <div class="footer-menu">
+              <ul>
+                <!-- Enlaces del pie de página -->
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>  
+
+  <!-- Scripts para funcionalidades adicionales -->
+  <script src="assets/js/contacto.js"></script>
+  <script>
+    function guardarContacto(event) {
+      // Evita el comportamiento predeterminado del formulario
+      event.preventDefault();
+      
+      // Obtiene los valores ingresados por el usuario
+      const nombre = document.getElementById('nombre').value.trim();
+      const correo = document.getElementById('correo').value.trim();
+      const celular = document.getElementById('celular').value.trim();
+      const mensaje = document.querySelector('textarea[name="mensaje"]').value.trim();
+
+      // Verifica si algún campo está vacío
+      if (!nombre || !correo || !celular || !mensaje) {
+        alert('Por favor, complete todos los campos.');
+        return;
+      }
+
+      // Validación del formato del correo electrónico usando una expresión regular
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(correo)) {
+        alert('Por favor, ingrese una dirección de correo electrónico válida.');
+        return;
+      }
+
+      // Crea el contenido del archivo de texto
+      const contenido = `Nombre: ${nombre}\nCorreo: ${correo}\nCelular: ${celular}\nMensaje: ${mensaje}`;
+      const blob = new Blob([contenido], { type: 'text/plain' });
+      const enlace = document.createElement('a');
+      enlace.href = URL.createObjectURL(blob);
+      enlace.download = 'contacto.txt';
+      enlace.click();  // Simula un clic para descargar el archivo
+    }
+  </script>
+</body>
+</html>
